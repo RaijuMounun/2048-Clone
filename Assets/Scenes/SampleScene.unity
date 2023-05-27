@@ -1038,6 +1038,8 @@ MonoBehaviour:
   canvases:
   - {fileID: 1368253686}
   - {fileID: 1237671422}
+  keyCodes: 11010000120100001301000014010000
+  directions: 00000000010000000200000003000000
 --- !u!1001 &489143889
 PrefabInstance:
   m_ObjectHideFlags: 0

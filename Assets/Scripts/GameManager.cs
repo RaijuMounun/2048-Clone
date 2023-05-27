@@ -8,10 +8,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] NumberController numberPrefab;
     GameObject numberParent;
     [SerializeField] GameObject[] canvases;
-    bool isPressedLeft => Input.GetKeyDown(KeyCode.LeftArrow);
-    bool isPressedRight => Input.GetKeyDown(KeyCode.RightArrow);
-    bool isPressedUp => Input.GetKeyDown(KeyCode.UpArrow);
-    bool isPressedDown => Input.GetKeyDown(KeyCode.DownArrow);
+    [SerializeField] KeyCode[] keyCodes;
+    [SerializeField] Direction[] directions;
 
 
     private void Awake()
@@ -27,21 +25,20 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (isPressedLeft)
+        GetInput();
+    }
+
+    void GetInput()
+    {
+        if (!Input.anyKey) return;
+
+        for (int i = 0; i < keyCodes.Length; i++)
         {
-            Move(Direction.Left);
-        }
-        else if (isPressedRight)
-        {
-            Move(Direction.Right);
-        }
-        else if (isPressedUp)
-        {
-            Move(Direction.Up);
-        }
-        else if (isPressedDown)
-        {
-            Move(Direction.Down);
+            if (Input.GetKeyDown(keyCodes[i]))
+            {
+                Move(directions[i]);
+                break;
+            }
         }
     }
 
@@ -52,6 +49,7 @@ public class GameManager : MonoBehaviour
 
         List<List<TileController>> result = GridManager.Instance.GetPriorityTile(dir);
         List<GameObject> listDestroy = new List<GameObject>();
+
         foreach (List<TileController> listTile in result)
         {
             foreach (TileController tile in listTile)
@@ -121,7 +119,6 @@ public class GameManager : MonoBehaviour
 
 
 
-    [ContextMenu(nameof(SpawnNumber))]
     public void SpawnNumber()
     {
         NumberController number = Instantiate(numberPrefab);
@@ -135,11 +132,7 @@ public class GameManager : MonoBehaviour
 
         if (listEmptyTile.Count == 0)
         {
-            Debug.Log("Lose");
-            if (number.transform.position == Vector3.zero)
-            {
-                GameOver(0);
-            }
+            if (number.transform.position == Vector3.zero) GameOver(0);
             return;
         }
         int index = Random.Range(0, listEmptyTile.Count);

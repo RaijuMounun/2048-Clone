@@ -30,15 +30,12 @@ namespace MyGrid
                 foreach (TileController item in listTile)
                 {
                     int coord = isVertical ? item.coordinate.y : item.coordinate.x;
-                    if (coord == current)
-                        list.Add(item);
+                    if (coord == current) list.Add(item);
                 }
 
                 result.Add(list);
                 current += isMax ? -1 : 1;
             }
-
-
             return result;
         }
 
@@ -51,8 +48,7 @@ namespace MyGrid
         {
             List<TileController> result = new List<TileController>();
             foreach (TileController tile in listTile)
-                if (!tile.MyNumberController)
-                    result.Add(tile);
+                if (!tile.MyNumberController) result.Add(tile);
 
             return result;
         }
