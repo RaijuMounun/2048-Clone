@@ -12,21 +12,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] Direction[] directions;
 
 
-    private void Awake()
-    {
-        numberParent = new GameObject("NumberParent");
-    }
+    private void Awake() => numberParent = new GameObject("NumberParent");
 
-    private void Start()
-    {
-        SpawnNumber();
-    }
+    private void Start() => SpawnNumber();
 
-
-    private void Update()
-    {
-        GetInput();
-    }
+    private void Update() => GetInput();
 
     void GetInput()
     {
@@ -65,12 +55,9 @@ public class GameManager : MonoBehaviour
                     if (!next) break;
                     if (next.MyNumberController)
                     {
-                        if (!next.isNew && next.MyNumberController.Number == tile.MyNumberController.Number)
-                        {
-                            isMerge = true;
-                            target = next;
-                        }
-
+                        if (!next.isNew && next.MyNumberController.Number != tile.MyNumberController.Number) return;
+                        isMerge = true;
+                        target = next;
                         break;
                     }
                     target = next;
@@ -144,16 +131,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    void GameOver(int winLose)
-    {
-        canvases[winLose].SetActive(true);
-    }
-    public void PlayAgain()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-    public void Quit()
-    {
-        Application.Quit();
-    }
+    void GameOver(int winLose) => canvases[winLose].SetActive(true);
+    public void PlayAgain() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    public void Quit() => Application.Quit();
 }
